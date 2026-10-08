@@ -14,6 +14,14 @@ PC / Mac や fm7emulator からそのまま使えるようにします。
 - **LED 連動**: ホストからの LED 状態に合わせて CAPS / KANA ランプを点灯します。
 - **診断ファームウェア**: キーマトリクスの配線をシリアル経由で確認できます。
 
+## ドキュメント
+
+| 資料 | 内容 |
+| --- | --- |
+| [製品仕様書兼取扱説明書](document/fm7-usb-keyboard-product-manual.md) | 製品仕様、接続方法、モード切替、キー割当、困ったときは |
+| [設計仕様書](document/fm7-usb-keyboard.md) | 回路、GPIO 割当、ソフトウェア仕様、PCB 仕様 |
+| [キーマトリクス対応表](document/fm7-keymatrix.md) | SCAN×SENSE のキー配置と、送信する HID コード |
+
 ## 必要なもの
 
 - Raspberry Pi Pico（RP2040）
@@ -24,7 +32,7 @@ PC / Mac や fm7emulator からそのまま使えるようにします。
 ## 配線
 
 | FM-7 コネクタ | 信号 | Pico GPIO | 備考 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1–16 | SCAN0–15 | GP0–GP15 | オープンドレイン駆動（アクティブ low） |
 | 17–23 | SENSE0–6 | GP16–GP22 | 内部プルアップ（アクティブ low） |
 | 24 | SENSE7 | — | 未配線（キーが接続されていないため） |
@@ -40,7 +48,7 @@ PC / Mac や fm7emulator からそのまま使えるようにします。
 `platformio.ini` には 3 つの環境があります。
 
 | 環境 | 内容 |
-|---|---|
+| --- | --- |
 | `pico` | 変換器ファームウェア。6KRO のブートプロトコルレポート（**デフォルト**） |
 | `pico_nkro` | 変換器ファームウェア。21 バイトの NKRO ビットマップレポート |
 | `pico_diag` | シリアル経由のマトリクス診断。USB HID なし |
@@ -63,7 +71,7 @@ fm7emulator は 8 バイトのブートレポート（`hid_keyboard_report_t`）
 **CTRL + GRAPH + PF1 / PF2 / PF3** で切り替えます。切り替えると CAPS / KANA ランプが点滅し、点滅の回数でモードを確認できます。起動時にも同じ点滅で現在のモードを表示します。
 
 | 操作 | モード | 点滅回数 | KANA キー | GRAPH キー |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | CTRL+GRAPH+PF1 | Fm7 | 1 回 | International2（fm7emulator でカナ切り替え） | Alt |
 | CTRL+GRAPH+PF2 | Windows | 2 回 | Windows キー | Alt |
 | CTRL+GRAPH+PF3 | Mac | 3 回 | Command | Option |
@@ -71,7 +79,7 @@ fm7emulator は 8 バイトのブートレポート（`hid_keyboard_report_t`）
 ### GRAPH との組み合わせ
 
 | 操作 | Fm7 | Windows | Mac |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | GRAPH + EL | F12 | F12 | F12 |
 | GRAPH + DUP | F11 | F11 | F11 |
 | GRAPH + KANA | LANG1（かな） | 半角/全角 | LANG1（かな） |
@@ -87,7 +95,7 @@ fm7emulator は 8 バイトのブートレポート（`hid_keyboard_report_t`）
 ### LED
 
 | ランプ | Fm7 モード | Windows / Mac モード |
-|---|---|---|
+| --- | --- | --- |
 | CAPS | Caps Lock | Caps Lock |
 | KANA | Num Lock（fm7emulator がカナ状態を送る） | HID の Kana ビット |
 | INS（オンボード LED） | Scroll Lock | Scroll Lock |
@@ -104,7 +112,7 @@ pio device monitor -e pico_diag   # 115200 bps
 キーを押すと、押した / 離したタイミングでスキャン位置とキー名が表示されます。シリアルから次のコマンドを入力できます。
 
 | キー | 動作 |
-|---|---|
+| --- | --- |
 | `d` | 現在のマトリクスをグリッド表示 |
 | `g` | ゴーストテストの説明を表示 |
 | `h` | ヘルプを表示 |
@@ -112,6 +120,7 @@ pio device monitor -e pico_diag   # 115200 bps
 ## ファイル構成
 
 ```
+document/             製品仕様書・設計仕様書・キーマトリクス対応表
 src/
 ├── main.cpp          変換器 / 診断ファームウェアの本体
 ├── pins.h            コネクタと GPIO の対応
