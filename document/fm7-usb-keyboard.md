@@ -128,7 +128,7 @@ arduino-pico（Earle Philhower コア）＋ Adafruit TinyUSB。ビルドは Plat
 | `pico_nkro` | 変換ファーム。NKRO（21 バイト＝modifier 1 ＋ ビットマップ 20、usage 0x00–0x9F） |
 | `pico_diag` | シリアル診断ファーム（USB HID なし） |
 
-USB の製造元名は `Fusion Elements`、製品名は `FM7USBKB-001`。
+USB の製造元名は `Fusion Elements`、製品名は `FM7USBKB_001`（ビルド時にハイフンがアンダースコアに置き換わる。製品番号 FM7USBKB-001 とは表記が異なる）。
 
 ### 5.2 USB HID
 
